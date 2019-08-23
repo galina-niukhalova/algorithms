@@ -1,7 +1,7 @@
 function binarySearch(num, target) {
   let index = Math.ceil((num.length - 1) / 2);
-  let prevL = 0;
-  let prevR = num.length;
+  let min = 0;
+  let max = num.length;
   let cache = {};
 
   while (index >= 0 && index < num.length && !cache[index]) {
@@ -12,15 +12,37 @@ function binarySearch(num, target) {
     }
 
     if (num[index] > target) {
-      prevR = index;
-      index -= Math.ceil((index - prevL) / 2);
+      max = index;
+      index -= Math.ceil((index - min) / 2);
     } else {
-      prevL = index;
-      index += Math.floor((prevR - index) / 2);
+      min = index;
+      index += Math.floor((max - index) / 2);
     }
   }
 
   return -1;
+}
+
+function binarySearch1(num, target) {
+  let min = 0;
+  let max = num.length - 1;
+  let index;
+
+  while (min <= max) {
+    index = Math.floor((max + min) / 2);
+
+    if (num[index] === target) {
+      return index;
+    }
+
+    if (num[index] > target) {
+      max = index - 1;
+    } else {
+      min = index + 1;
+    }
+  }
+
+  return -1
 }
 
 console.log(binarySearch([-1, 0, 3, 5, 9, 12], -1) === 0);
